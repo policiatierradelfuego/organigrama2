@@ -4,7 +4,9 @@
    ============================================================ */
 
 /* ---------- Reset & Base ---------- */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -183,7 +185,9 @@ body {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-spinner.hidden {
@@ -196,19 +200,40 @@ body {
   animation: fadeInUp 0.4s ease both;
 }
 
-.org-section:nth-child(2) { animation-delay: 0.05s; }
-.org-section:nth-child(3) { animation-delay: 0.1s; }
-.org-section:nth-child(4) { animation-delay: 0.15s; }
-.org-section:nth-child(5) { animation-delay: 0.2s; }
-.org-section:nth-child(6) { animation-delay: 0.25s; }
-.org-section:nth-child(7) { animation-delay: 0.3s; }
-.org-section:nth-child(8) { animation-delay: 0.35s; }
+.org-section:nth-child(2) {
+  animation-delay: 0.05s;
+}
+
+.org-section:nth-child(3) {
+  animation-delay: 0.1s;
+}
+
+.org-section:nth-child(4) {
+  animation-delay: 0.15s;
+}
+
+.org-section:nth-child(5) {
+  animation-delay: 0.2s;
+}
+
+.org-section:nth-child(6) {
+  animation-delay: 0.25s;
+}
+
+.org-section:nth-child(7) {
+  animation-delay: 0.3s;
+}
+
+.org-section:nth-child(8) {
+  animation-delay: 0.35s;
+}
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
     transform: translateY(12px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -291,7 +316,7 @@ body {
 /* ---------- Cards Grid (Galería) ---------- */
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 12px;
 }
 
@@ -345,7 +370,10 @@ body {
   font-size: 0.8rem;
   color: var(--color-accent);
   text-decoration: none;
-  word-break: break-all;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-height: 1.4;
+  display: block;
 }
 
 .card-email:hover {
@@ -541,6 +569,7 @@ body {
 .field-link {
   color: var(--color-accent);
   text-decoration: none;
+  overflow-wrap: anywhere;
 }
 
 .field-link:hover {
