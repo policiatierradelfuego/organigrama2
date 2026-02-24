@@ -50,39 +50,50 @@ function setupPWAInstall() {
     const installBtn = document.getElementById('installAppBtn');
     if (!installBtn) return;
 
-    // Escuchar el evento de que la PWA es instalable
+    // Verificar si ya está en modo "standalone" (instalada)
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+    if (isStandalone) {
+        installBtn.classList.add('hidden');
+        return; // Ya instalada
+    }
+
+    // Por defecto, mostramos el botón si no está en standalone
+    installBtn.classList.remove('hidden');
+
+    // Escuchar el evento oficial PWA (Android / Chrome Desktop)
     window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevenir que Chrome 67 y anteriores muestren el prompt automáticamente
         e.preventDefault();
-        // Guardar el evento para dispararlo luego
         deferredPrompt = e;
-        // Mostrar el botón de instalación
-        installBtn.classList.remove('hidden');
     });
 
-    // Manejar el clic en el botón de instalar
+    // Manejar el clic
     installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
+        // 1. Si el aviso nativo está listo
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response: ${outcome}`);
+            deferredPrompt = null;
+            if (outcome === 'accepted') {
+                installBtn.classList.add('hidden');
+            }
+            return;
+        }
 
-        // Mostrar el prompt nativo
-        deferredPrompt.prompt();
+        // 2. Si es iOS (Apple no soporta el prompt automático)
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        if (isIOS) {
+            alert("Para instalar en iOS: Presiona el ícono 'Compartir' en la barra inferior (cuadrado con flecha hacia arriba) y selecciona 'Agregar a inicio'.");
+            return;
+        }
 
-        // Esperar a ver qué responde el usuario
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to the install prompt: ${outcome}`);
-
-        // El prompt ya no se puede usar, lo limpiamos
-        deferredPrompt = null;
-        // Ocultar el botón
-        installBtn.classList.add('hidden');
+        // 3. Fallback: (Por ejemplo, abrió archivo local, incógnito, o ya fue cerrada la alerta)
+        alert("Para instalar la aplicación automáticamente, necesitas acceder desde un servidor seguro (HTTPS) o Localhost, y tu navegador debe ser compatible con PWA.");
     });
 
-    // Detectar si la app ya fue instalada
     window.addEventListener('appinstalled', () => {
-        console.log('PWA ya ha sido instalada');
-        // Ocultar el botón si está visible
+        console.log('PWA instalada con éxito');
         installBtn.classList.add('hidden');
-        // Limpiar el prompt
         deferredPrompt = null;
     });
 }
