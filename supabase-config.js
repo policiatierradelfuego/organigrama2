@@ -5,8 +5,8 @@
 //   https://supabase.com/dashboard → Settings → API
 // ============================================================
 
-const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
-const SUPABASE_ANON_KEY = 'TU_ANON_KEY';
+const SUPABASE_URL = 'https://ahhixnkbpmvaxmwcydke.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_HwyyqjJy5DZ8UlAp_nqNkw_G82speqj';
 
 // Nombre de la tabla en Supabase
 const TABLE_NAME = 'dependencias';
