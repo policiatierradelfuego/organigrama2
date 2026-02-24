@@ -522,10 +522,10 @@ body {
 
 .modal-close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
   border: none;
   background: transparent;
   border-radius: var(--radius-sm);
@@ -534,7 +534,12 @@ body {
   align-items: center;
   justify-content: center;
   color: var(--color-text-muted);
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition: all var(--transition-fast);
+  z-index: 100;
+}
+
+.modal-close svg {
+  pointer-events: none;
 }
 
 .modal-close:hover {
