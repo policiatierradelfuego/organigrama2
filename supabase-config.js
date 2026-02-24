@@ -5,8 +5,8 @@
 //   https://supabase.com/dashboard → Settings → API
 // ============================================================
 
-const SUPABASE_URL = 'https://TU_PROYECTO.supabase.co';
-const SUPABASE_ANON_KEY = 'TU_ANON_KEY';
+const SUPABASE_URL = 'https://ahhixnkbpmvaxmwcydke.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFoaGl4bmticG12YXhtd2N5ZGtlIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MTkxNjg2MCwiZXhwIjoyMDg3NDkyODYwfQ.yhOlZ0SKUfY_Art5K2wvP8qs4sxOcDXlS3icmo3RS40';
 
 // Nombre de la tabla en Supabase
 const TABLE_NAME = 'dependencias';
