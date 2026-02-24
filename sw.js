@@ -1,4 +1,4 @@
-const CACHE_NAME = 'autoridades-v1';
+const CACHE_NAME = 'autoridades-v2';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -11,23 +11,14 @@ const ASSETS_TO_CACHE = [
     './Escudo oro.png',
     './icon-192.png',
     './icon-512.png',
-    './apple-touch-icon.png',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
+    './apple-touch-icon.png'
 ];
 
 self.addEventListener('install', (event) => {
+    self.skipWaiting(); // Fuerza a que el SW nuevo se active inmediatamente
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ASSETS_TO_CACHE);
-        })
-    );
-});
-
-self.addEventListener('fetch', (event) => {
-    event.respondWith(
-        caches.match(event.request).then((response) => {
-            // Devuelve la respuesta caché si existe, o haz el fetch
-            return response || fetch(event.request);
         })
     );
 });
@@ -43,5 +34,32 @@ self.addEventListener('activate', (event) => {
                 })
             );
         })
+    );
+    self.clients.claim(); // Tomar control inmediato de todas las pestañas abiertas
+});
+
+// Estrategia Network First (Red primero, si falla va a Caché)
+self.addEventListener('fetch', (event) => {
+    // Ignorar peticiones a Supabase y otros dominios externos
+    if (!event.request.url.startsWith(self.location.origin)) {
+        return;
+    }
+
+    event.respondWith(
+        fetch(event.request)
+            .then((networkResponse) => {
+                // Red funcionó: clonar y guardar en caché la versión más reciente
+                if (networkResponse && networkResponse.status === 200) {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+                }
+                return networkResponse;
+            })
+            .catch(() => {
+                // Modo offline: devolver lo que haya en caché
+                return caches.match(event.request);
+            })
     );
 });

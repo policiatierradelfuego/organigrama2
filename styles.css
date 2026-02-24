@@ -60,7 +60,9 @@ body {
 
 .hero-gradient {
   height: 200px;
-  background: linear-gradient(135deg, #1a3a5c 0%, #2c5a8f 25%, #4a7ab5 50%, #c97656 75%, #8b3a3a 100%);
+  background-image: url('degradee.png');
+  background-size: cover;
+  background-position: center;
   position: relative;
 }
 
