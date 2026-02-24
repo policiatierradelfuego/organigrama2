@@ -132,4 +132,53 @@ function escapeHtml(str) {
 }
 
 // Iniciar
-document.addEventListener('DOMContentLoaded', init);
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    setupPWAInstall();
+});
+
+// ============================================================
+// PWA Instalación
+// ============================================================
+let deferredPrompt;
+
+function setupPWAInstall() {
+    const installBtn = document.getElementById('installAppBtn');
+    if (!installBtn) return;
+
+    // Escuchar el evento de que la PWA es instalable
+    window.addEventListener('beforeinstallprompt', (e) => {
+        // Prevenir que Chrome 67 y anteriores muestren el prompt automáticamente
+        e.preventDefault();
+        // Guardar el evento para dispararlo luego
+        deferredPrompt = e;
+        // Mostrar el botón de instalación
+        installBtn.classList.remove('hidden');
+    });
+
+    // Manejar el clic en el botón de instalar
+    installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+
+        // Mostrar el prompt nativo
+        deferredPrompt.prompt();
+
+        // Esperar a ver qué responde el usuario
+        const { outcome } = await deferredPrompt.userChoice;
+        console.log(`User response to the install prompt: ${outcome}`);
+
+        // El prompt ya no se puede usar, lo limpiamos
+        deferredPrompt = null;
+        // Ocultar el botón
+        installBtn.classList.add('hidden');
+    });
+
+    // Detectar si la app ya fue instalada
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA ya ha sido instalada');
+        // Ocultar el botón si está visible
+        installBtn.classList.add('hidden');
+        // Limpiar el prompt
+        deferredPrompt = null;
+    });
+}
