@@ -242,7 +242,16 @@ function openModal(item) {
     }
 
     // Teléfono
-    setField('fieldTelefono', 'modalTelefono', item.telefono);
+    const telField = document.getElementById('fieldTelefono');
+    const telEl = document.getElementById('modalTelefono');
+    if (item.telefono && item.telefono.trim()) {
+        telField.classList.remove('hidden');
+        const telNumber = item.telefono.replace(/[^\d+]/g, ''); // Limpiar para el link
+        telEl.textContent = item.telefono;
+        telEl.href = `tel:${telNumber}`;
+    } else {
+        telField.classList.add('hidden');
+    }
 
     // WhatsApp
     const waField = document.getElementById('fieldWhatsapp');
