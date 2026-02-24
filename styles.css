@@ -83,26 +83,38 @@ body {
 }
 
 .hero-icon {
-  width: 80px;
-  height: 80px;
-  background: var(--color-surface);
-  border-radius: var(--radius-lg);
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 12px var(--color-card-shadow);
-  color: var(--color-accent);
   margin-bottom: 16px;
-  border: 1px solid var(--color-border);
+}
+
+.hero-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
 }
 
 .hero-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
   color: var(--color-text);
-  line-height: 1.2;
+  line-height: 1.1;
   margin-bottom: 8px;
+}
+
+.hidden-admin-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: default;
+}
+
+.hidden-admin-link:hover {
+  color: inherit;
 }
 
 .hero-subtitle {

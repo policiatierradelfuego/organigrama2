@@ -95,12 +95,6 @@ function createSection(title, items, isCardView) {
       </svg>
     </div>
     <h2 class="section-title">${escapeHtml(title)}</h2>
-    <span class="section-view-badge">
-      ${isCardView
-            ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Galería`
-            : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1" fill="currentColor"/><circle cx="4" cy="12" r="1" fill="currentColor"/><circle cx="4" cy="18" r="1" fill="currentColor"/></svg> Lista`
-        }
-    </span>
   `;
 
     // Body
@@ -141,14 +135,14 @@ function createSection(title, items, isCardView) {
         }
     });
 
-    // Set initial max-height
+    // Iniciar colapsado por defecto
+    body.classList.add('collapsed');
+    const toggleIcon = header.querySelector('.section-toggle');
+    toggleIcon.classList.add('collapsed');
+    body.style.maxHeight = '0px';
+
     section.appendChild(header);
     section.appendChild(body);
-
-    // Defer max-height calculation
-    requestAnimationFrame(() => {
-        body.style.maxHeight = body.scrollHeight + 'px';
-    });
 
     return section;
 }
