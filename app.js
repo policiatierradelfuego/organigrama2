@@ -291,8 +291,21 @@ function openModal(item) {
     document.getElementById('modalTitle').textContent = item.dependencia || '';
     document.getElementById('modalBadge').textContent = item.guia || '';
 
-    // Responsable
-    setField('fieldResponsable', 'modalResponsable', item.responsable);
+    // Responsable (Jerarquía + Nombre)
+    const fieldResp = document.getElementById('fieldResponsable');
+    const modalResp = document.getElementById('modalResponsable');
+    const hasResp = item.responsable && item.responsable.trim();
+    const hasJerarquia = item.jerarquia && item.jerarquia.trim();
+
+    if (hasResp || hasJerarquia) {
+        fieldResp.classList.remove('hidden');
+        let html = '';
+        if (hasJerarquia) html += `<span class="jerarquia-text">${escapeHtml(item.jerarquia)}</span>`;
+        if (hasResp) html += `<span class="nombre-text">${escapeHtml(item.responsable)}</span>`;
+        modalResp.innerHTML = html;
+    } else {
+        fieldResp.classList.add('hidden');
+    }
 
     // Dirección
     setField('fieldDireccion', 'modalDireccion', item.direccion);
