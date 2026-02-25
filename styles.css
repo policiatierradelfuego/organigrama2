@@ -510,12 +510,25 @@ body {
   border-radius: var(--radius-xl);
   max-width: 520px;
   width: 100%;
-  padding: 40px;
+  padding: 48px;
+  padding-top: 60px;
   position: relative;
-  box-shadow: 0 32px 80px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 32px 80px -12px rgba(0,0,0,0.15);
   transform: scale(0.95) translateY(10px);
   transition: transform var(--transition-normal);
   border: 1px solid var(--color-border);
+  overflow: hidden;
+}
+
+.modal-top-bar {
+  height: 14px;
+  background: url('degradee.png');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .modal-overlay.active .modal-card {
@@ -524,13 +537,13 @@ body {
 
 .modal-close {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 44px;
-  height: 44px;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
   border: none;
   background: transparent;
-  border-radius: var(--radius-sm);
+  border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -542,6 +555,8 @@ body {
 
 .modal-close svg {
   pointer-events: none;
+  width: 18px;
+  height: 18px;
 }
 
 .modal-close:hover {
@@ -550,16 +565,14 @@ body {
 }
 
 .modal-header {
-  margin-bottom: 32px;
-  padding-right: 40px;
-  position: relative;
-  padding-bottom: 20px;
-  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 28px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .modal-title {
-  font-size: 1.6rem;
-  font-weight: 800;
+  font-size: 2rem;
+  font-weight: 700;
   color: var(--color-text);
   line-height: 1.2;
   margin-bottom: 12px;
@@ -568,13 +581,12 @@ body {
 
 .modal-badge {
   display: inline-block;
-  background: var(--color-accent-light);
-  color: var(--color-accent);
-  font-size: 0.78rem;
+  background: #e7f3f8;
+  color: #337ea9;
+  font-size: 0.85rem;
   font-weight: 600;
-  padding: 4px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
-  letter-spacing: 0.02em;
 }
 
 .modal-body {
@@ -585,8 +597,8 @@ body {
 
 .modal-field {
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
+  align-items: center;
+  gap: 16px;
 }
 
 .modal-field.hidden {
@@ -594,14 +606,14 @@ body {
 }
 
 .field-icon {
-  width: 36px;
-  height: 36px;
-  background: var(--color-badge-bg);
-  border-radius: var(--radius-md);
+  width: 44px;
+  height: 44px;
+  background: #f5f5f5;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-text-secondary);
+  color: #8c8c8c;
   flex-shrink: 0;
 }
 
@@ -612,17 +624,18 @@ body {
 
 .field-label {
   display: block;
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--color-text-muted);
+  letter-spacing: 0.05em;
+  color: #a0a09a;
   margin-bottom: 2px;
 }
 
 .field-value {
   display: block;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
+  font-weight: 500;
   color: var(--color-text);
   line-height: 1.4;
 }
