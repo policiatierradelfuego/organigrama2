@@ -134,62 +134,7 @@ function escapeHtml(str) {
 // Iniciar
 document.addEventListener('DOMContentLoaded', () => {
     init();
-    setupPWAInstall();
+
 });
 
-// ============================================================
-// PWA Instalación
-// ============================================================
-let deferredPrompt;
 
-function setupPWAInstall() {
-    const installBtn = document.getElementById('installAppBtn');
-    if (!installBtn) return;
-
-    // Verificar si ya está en modo "standalone" (instalada)
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-    if (isStandalone) {
-        installBtn.classList.add('hidden');
-        return; // Ya instalada
-    }
-
-    // Por defecto, mostramos el botón si no está en standalone
-    installBtn.classList.remove('hidden');
-
-    // Escuchar el evento oficial PWA (Android / Chrome Desktop)
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-    });
-
-    // Manejar el clic
-    installBtn.addEventListener('click', async () => {
-        // 1. Si el aviso nativo está listo
-        if (deferredPrompt) {
-            deferredPrompt.prompt();
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response: ${outcome}`);
-            deferredPrompt = null;
-            if (outcome === 'accepted') {
-                installBtn.classList.add('hidden');
-            }
-            return;
-        }
-
-        // 2. Si es iOS (Apple no soporta el prompt automático)
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIOS) {
-            alert("Para instalar en iOS: Presiona el ícono 'Compartir' en la barra inferior (cuadrado con flecha hacia arriba) y selecciona 'Agregar a inicio'.");
-            return;
-        }
-
-        // 3. Fallback: (Por ejemplo, abrió archivo local, incógnito, o ya fue cerrada la alerta)
-        alert("Para instalar la aplicación automáticamente, necesitas acceder desde un servidor seguro (HTTPS) o Localhost, y tu navegador debe ser compatible con PWA.");
-    });
-
-    window.addEventListener('appinstalled', () => {
-        console.log('PWA instalada con éxito');
-        installBtn.classList.add('hidden');
-        deferredPrompt = null;
-    });
-}
