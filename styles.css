@@ -794,7 +794,7 @@ body {
   }
 
   .modal-card {
-    padding: 24px;
+    padding: 56px 24px 24px 24px;
   }
 
   .modal-title {
@@ -828,7 +828,7 @@ body {
   }
 
   .modal-card {
-    padding: 20px;
+    padding: 52px 20px 20px 20px;
     border-radius: var(--radius-lg);
   }
 }
