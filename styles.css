@@ -51,6 +51,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.mobile-only-br {
+  display: none;
+}
+
 /* ---------- Hero Header ---------- */
 .hero-header {
   position: relative;
@@ -769,7 +773,16 @@ body {
   }
 
   .hero-title {
-    font-size: 1.75rem;
+    font-size: clamp(2.2rem, 10vw, 3rem);
+    /* Escala dinámicamente hasta llenar el ancho */
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+
+  .mobile-only-br {
+    display: block;
   }
 
   .hero-subtitle {

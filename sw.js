@@ -1,4 +1,4 @@
-const CACHE_NAME = 'autoridades-v6';
+const CACHE_NAME = 'autoridades-v8';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
