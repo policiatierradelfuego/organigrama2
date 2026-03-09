@@ -31,9 +31,12 @@ async function init() {
     slider.addEventListener('mousedown', (e) => {
         isDown = true;
         slider.classList.add('active-dragging');
+        // Desactivar scroll-behavior smooth global para que JS no vibre
+        document.documentElement.style.scrollBehavior = 'auto';
+
         // Posición inicial del mouse
         startX = e.pageX - slider.offsetLeft;
-        startY = e.pageY - slider.offsetTop;
+        startY = e.clientY; // Usamos clientY para evitar vibración de realimentación con el scroll
         // Posición inicial del scroll
         scrollLeft = slider.scrollLeft;
         scrollTop = window.scrollY; // Para scroll vertical de la página
@@ -42,11 +45,13 @@ async function init() {
     slider.addEventListener('mouseleave', () => {
         isDown = false;
         slider.classList.remove('active-dragging');
+        document.documentElement.style.scrollBehavior = '';
     });
 
     slider.addEventListener('mouseup', () => {
         isDown = false;
         slider.classList.remove('active-dragging');
+        document.documentElement.style.scrollBehavior = '';
     });
 
     slider.addEventListener('mousemove', (e) => {
@@ -59,26 +64,46 @@ async function init() {
         slider.scrollLeft = scrollLeft - walkX;
 
         // Eje Y (Vertical - movemos el scroll de la ventana)
-        const y = e.pageY - slider.offsetTop;
+        const y = e.clientY; // Usamos clientY para evitar el loop del scroll
         const walkY = (y - startY) * 1.5;
         window.scrollTo(0, scrollTop - walkY);
     });
 
     // 3. Event listener para búsqueda
-    tableSearch.addEventListener('input', (e) => {
-        const term = e.target.value.toLowerCase().trim();
+    const clearBtn = document.getElementById('searchClear');
+
+    const performSearch = () => {
+        const query = normalizeString(tableSearch.value);
+
+        // Mostrar/ocultar botón X
+        if (tableSearch.value.length > 0) {
+            clearBtn.classList.add('active');
+        } else {
+            clearBtn.classList.remove('active');
+        }
+
         const filtered = allData.filter(item => {
             return (
-                (item.dependencia || '').toLowerCase().includes(term) ||
-                (item.responsable || '').toLowerCase().includes(term) ||
-                (item.guia || '').toLowerCase().includes(term) ||
-                (item.jerarquia || '').toLowerCase().includes(term) ||
-                (item.direccion || '').toLowerCase().includes(term) ||
-                (item.email || '').toLowerCase().includes(term)
+                normalizeString(item.dependencia).includes(query) ||
+                normalizeString(item.responsable).includes(query) ||
+                normalizeString(item.guia).includes(query) ||
+                normalizeString(item.jerarquia).includes(query) ||
+                normalizeString(item.direccion).includes(query) ||
+                normalizeString(item.email).includes(query)
             );
         });
         renderTable(filtered);
-    });
+    };
+
+    tableSearch.addEventListener('input', performSearch);
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            tableSearch.value = '';
+            performSearch();
+            tableSearch.focus();
+        });
+    }
 }
 
 function renderTable(data) {
@@ -127,8 +152,20 @@ function showLoading(show) {
 function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>"']/g, m => ({
-        '&': '&am p;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[m]));
+}
+
+/**
+ * Normaliza una cadena para búsqueda: minúsculas y sin acentos
+ */
+function normalizeString(str) {
+    if (!str) return '';
+    return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
 }
 
 // Iniciar

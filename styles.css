@@ -187,7 +187,7 @@ body {
 
 .search-box input {
   width: 100%;
-  padding: 10px 14px 10px 40px;
+  padding: 10px 40px 10px 40px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   font-family: var(--font-family);
@@ -205,6 +205,35 @@ body {
 .search-box input:focus {
   border-color: var(--color-accent);
   box-shadow: 0 0 0 3px var(--color-accent-light);
+}
+
+.search-clear {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast), background var(--transition-fast);
+}
+
+.search-clear:hover {
+  background: var(--color-badge-bg);
+  color: var(--color-text);
+}
+
+.search-clear.active {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 /* ---------- Main Content ---------- */
@@ -295,11 +324,24 @@ body {
 .section-header {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   cursor: pointer;
-  padding: 8px 0;
+  padding: 16px 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 8px var(--color-card-shadow);
   user-select: none;
-  margin-bottom: 12px;
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+  transition: all var(--transition-normal);
+}
+
+.section-header:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: 0 6px 16px var(--color-card-shadow-hover);
+  transform: translateY(-2px);
 }
 
 .section-header:hover .section-title {
@@ -307,15 +349,16 @@ body {
 }
 
 .section-toggle {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-sm);
   color: var(--color-text-secondary);
-  transition: transform var(--transition-fast), background var(--transition-fast);
+  transition: transform var(--transition-normal), background var(--transition-fast);
   flex-shrink: 0;
+  background: var(--color-badge-bg);
 }
 
 .section-toggle.collapsed {
@@ -323,11 +366,12 @@ body {
 }
 
 .section-header:hover .section-toggle {
-  background: var(--color-badge-bg);
+  background: var(--color-border);
+  color: var(--color-text);
 }
 
 .section-title {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 600;
   color: var(--color-text);
   transition: color var(--transition-fast);
@@ -354,15 +398,28 @@ body {
 
 /* Section body */
 .section-body {
+  position: relative;
+  z-index: 1;
+  margin-top: -16px;
+  padding: 36px 20px 20px 20px;
+  background: #fcfcfc;
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  box-shadow: 0 4px 12px var(--color-card-shadow);
   overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
+  transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin-top 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .section-body.collapsed {
   max-height: 0 !important;
   opacity: 0;
   pointer-events: none;
+  margin-top: -40px;
+  border-color: transparent;
+  box-shadow: none;
 }
+
 
 /* ---------- Cards Grid (Galería) ---------- */
 .cards-grid {
@@ -784,7 +841,7 @@ body {
 
 .hero-header.mini .hero-content {
   margin-top: 0;
-  padding: 24px 40px;
+  padding: 56px 40px 24px 40px;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -854,14 +911,13 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border) transparent;
   position: relative;
+  scroll-behavior: auto !important;
 }
 
-.table-wrapper:active {
-  cursor: grabbing;
-}
-
+.table-wrapper:active,
 .table-wrapper.active-dragging {
   cursor: grabbing;
+  scroll-behavior: auto !important;
 }
 
 /* Scrollbar estética estilo Notion */

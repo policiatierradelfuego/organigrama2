@@ -316,28 +316,47 @@ function setField(fieldId, valueId, value) {
 // ============================================================
 function setupSearch() {
     const input = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('searchClear');
     let debounceTimer;
+
+    const performSearch = () => {
+        const query = normalizeString(input.value);
+
+        // Mostrar/ocultar botón X
+        if (input.value.length > 0) {
+            clearBtn.classList.add('active');
+        } else {
+            clearBtn.classList.remove('active');
+        }
+
+        if (!query) {
+            renderOrganigrama(allData);
+            return;
+        }
+
+        const filtered = allData.filter(item =>
+            normalizeString(item.dependencia).includes(query) ||
+            normalizeString(item.responsable).includes(query) ||
+            normalizeString(item.direccion).includes(query) ||
+            normalizeString(item.jerarquia).includes(query) ||
+            normalizeString(item.guia).includes(query)
+        );
+
+        renderOrganigrama(filtered);
+    };
 
     input.addEventListener('input', () => {
         clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => {
-            const query = input.value.trim().toLowerCase();
-            if (!query) {
-                renderOrganigrama(allData);
-                return;
-            }
-
-            const filtered = allData.filter(item =>
-                (item.dependencia || '').toLowerCase().includes(query) ||
-                (item.responsable || '').toLowerCase().includes(query) ||
-                (item.direccion || '').toLowerCase().includes(query) ||
-                (item.jerarquia || '').toLowerCase().includes(query) ||
-                (item.guia || '').toLowerCase().includes(query)
-            );
-
-            renderOrganigrama(filtered);
-        }, 200);
+        debounceTimer = setTimeout(performSearch, 200);
     });
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            performSearch();
+            input.focus();
+        });
+    }
 }
 
 // ============================================================
@@ -372,4 +391,16 @@ function escapeHtml(str) {
     const div = document.createElement('div');
     div.textContent = str;
     return div.innerHTML;
+}
+
+/**
+ * Normaliza una cadena para búsqueda: minúsculas y sin acentos
+ */
+function normalizeString(str) {
+    if (!str) return '';
+    return str
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
 }
