@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Comisarías Zona Norte - Policía de Tierra del Fuego">
+  <title>Comisarías Zona Norte | Policía de Tierra del Fuego</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=11">
+</head>
+<body data-zona="norte">
+  <header class="hero-header">
+    <div class="hero-gradient"></div>
+    <div class="hero-content">
+      <div class="hero-icon">
+        <img src="Escudo oro.png" alt="Escudo Policía de Tierra del Fuego" class="hero-logo">
+      </div>
+      <h1 class="hero-title">
+        <span class="title-top">Comisarías</span>
+        <br class="mobile-only-br">
+        <span class="title-bottom">Zona Norte</span>
+      </h1>
+      <p class="hero-subtitle">Río Grande</p>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+      <p>Cargando datos...</p>
+    </div>
+
+    <!-- Las tarjetas se generan dinámicamente desde comisarias.js usando los datos del Excel/Supabase -->
+    <div id="comisariasGrid" class="comisarias-grid"></div>
+    
+    <div class="nav-actions" style="justify-content: center; margin-top: 40px;">
+      <a href="comisarias.html" class="secondary-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5"/>
+          <path d="M12 19l-7-7 7-7"/>
+        </svg>
+        Volver a Zonas
+      </a>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <p>Policía de Tierra del Fuego A.e I.A.S. — Comisarías Zona Norte</p>
+  </footer>
+
+  <script src="data.js?v=3"></script>
+  <script src="supabase-config.js?v=3"></script>
+  <script src="comisarias.js?v=1"></script>
+</body>
+</html>
