@@ -52,7 +52,9 @@ CREATE TABLE IF NOT EXISTS dependencias (
   direccion TEXT,
   email TEXT,
   telefono TEXT,
-  whatsapp TEXT
+  whatsapp TEXT,
+  imagen TEXT,
+  mapa TEXT
 );
 
 -- Habilitar acceso público de lectura (Row Level Security):
