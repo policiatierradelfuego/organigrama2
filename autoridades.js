@@ -18,10 +18,13 @@ async function init() {
         console.warn('Usando datos de respaldo local...');
         allData = (typeof FALLBACK_DATA !== 'undefined') ? FALLBACK_DATA : [];
     } else {
-        // Deduplicar datos (basado en guía + dependencia + responsable)
+        // Deduplicar datos (ignorando case/espacios en guía, dependencia y responsable)
         const uniqueMap = new Map();
         allData.forEach(item => {
-            const key = `${item.guia}|${item.dependencia}|${item.responsable}`;
+            const g = (item.guia || '').trim().toLowerCase();
+            const d = (item.dependencia || '').trim().toLowerCase();
+            const r = (item.responsable || '').trim().toLowerCase();
+            const key = `${g}|${d}|${r}`;
             if (!uniqueMap.has(key)) {
                 uniqueMap.set(key, item);
             }

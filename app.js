@@ -367,11 +367,14 @@ function groupBy(arr, key) {
         const group = (item[key] || '').trim();
         if (!acc[group]) acc[group] = [];
 
-        // Evitar duplicados dentro del mismo grupo (misma dependencia + responsable)
-        const isDuplicate = acc[group].some(existing =>
-            existing.dependencia === item.dependencia &&
-            existing.responsable === item.responsable
-        );
+        // Evitar duplicados dentro del mismo grupo (misma dependencia + responsable, ignorando case/espacios)
+        const isDuplicate = acc[group].some(existing => {
+            const dep1 = (existing.dependencia || '').trim().toLowerCase();
+            const dep2 = (item.dependencia || '').trim().toLowerCase();
+            const resp1 = (existing.responsable || '').trim().toLowerCase();
+            const resp2 = (item.responsable || '').trim().toLowerCase();
+            return dep1 === dep2 && resp1 === resp2;
+        });
 
         if (!isDuplicate) {
             acc[group].push(item);
