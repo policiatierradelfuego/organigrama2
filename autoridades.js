@@ -17,6 +17,16 @@ async function init() {
     if (!allData || allData.length === 0) {
         console.warn('Usando datos de respaldo local...');
         allData = (typeof FALLBACK_DATA !== 'undefined') ? FALLBACK_DATA : [];
+    } else {
+        // Deduplicar datos (basado en guía + dependencia + responsable)
+        const uniqueMap = new Map();
+        allData.forEach(item => {
+            const key = `${item.guia}|${item.dependencia}|${item.responsable}`;
+            if (!uniqueMap.has(key)) {
+                uniqueMap.set(key, item);
+            }
+        });
+        allData = Array.from(uniqueMap.values());
     }
 
     renderTable(allData);

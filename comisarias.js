@@ -46,6 +46,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         allData = FALLBACK_DATA;
     }
 
+    // Deduplicar datos (basado en guía + dependencia + responsable)
+    const uniqueMap = new Map();
+    allData.forEach(item => {
+        const key = `${item.guia}|${item.dependencia}|${item.responsable}`;
+        if (!uniqueMap.has(key)) {
+            uniqueMap.set(key, item);
+        }
+    });
+    allData = Array.from(uniqueMap.values());
+
     // 4. Filtrar datos para la zona actual
     const targetGuia = ZONAS_MAP[zonaActual];
     // Solo mostramos las que sean "Comisaría" para limpiar un poco (opcional)

@@ -366,7 +366,16 @@ function groupBy(arr, key) {
     return arr.reduce((acc, item) => {
         const group = (item[key] || '').trim();
         if (!acc[group]) acc[group] = [];
-        acc[group].push(item);
+
+        // Evitar duplicados dentro del mismo grupo (misma dependencia + responsable)
+        const isDuplicate = acc[group].some(existing =>
+            existing.dependencia === item.dependencia &&
+            existing.responsable === item.responsable
+        );
+
+        if (!isDuplicate) {
+            acc[group].push(item);
+        }
         return acc;
     }, {});
 }

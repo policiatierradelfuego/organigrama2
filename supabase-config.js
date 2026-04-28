@@ -67,3 +67,75 @@ CREATE POLICY "Permitir lectura pública"
   FOR SELECT
   USING (true);
 */
+
+
+// ============================================================
+// CÓDIGO PARA GOOGLE APPS SCRIPT (COPIAR DESDE AQUÍ)
+// ============================================================
+/*
+  INSTRUCCIONES FINALES:
+  1. En Google Sheets: Extensiones -> Apps Script.
+  2. Pegá el código de abajo (aseguráte de NO incluir estas instrucciones).
+  3. Guardá y recargá tu Google Sheet. 
+  4. Verás un nuevo menú llamado "🚀 Supabase" al lado de "Ayuda".
+*/
+
+// --- INICIO DEL SCRIPT PARA GOOGLE ---
+/*
+function onOpen() {
+  const ui = SpreadsheetApp.getUi();
+  ui.createMenu('🚀 Supabase')
+    .addItem('Sincronizar fila activa', 'syncToSupabase')
+    .addToUi();
+}
+
+function syncToSupabase() {
+  // Configuración (REEMPLAZAR CON TUS DATOS)
+  const SB_URL = 'https://ahhixnkbpmvaxmwcydke.supabase.co';
+  const SB_KEY = 'TU_SERVICE_ROLE_KEY_AQUÍ'; // Usá la clave que empieza con 'eyJ...'
+  
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const row = sheet.getActiveRange().getRow();
+  
+  if (row < 2) {
+    SpreadsheetApp.getUi().alert('Seleccioná una fila con datos (no el encabezado).');
+    return;
+  }
+
+  const rowData = sheet.getRange(row, 1, 1, 10).getValues()[0];
+  
+  const payload = {
+    guia: rowData[0],
+    dependencia: rowData[1],
+    jerarquia: rowData[2],
+    responsable: rowData[3],
+    direccion: rowData[4],
+    email: rowData[5],
+    telefono: String(rowData[6]),
+    whatsapp: String(rowData[7]),
+    imagen: rowData[8],
+    mapa: rowData[9]
+  };
+
+  const options = {
+    method: 'post',
+    contentType: 'application/json',
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Prefer': 'resolution=merge-duplicates'
+    },
+    payload: JSON.stringify(payload)
+  };
+
+  try {
+    UrlFetchApp.fetch(SB_URL + '/rest/v1/dependencias', options);
+    sheet.getRange(row, 11).setValue('Sincronizado ✅'); // Marca en columna K
+    SpreadsheetApp.getActiveSpreadsheet().toast('Fila ' + row + ' sincronizada con éxito.');
+  } catch (e) {
+    SpreadsheetApp.getUi().alert('Error: ' + e.message);
+  }
+}
+*/
+// --- FIN DEL SCRIPT PARA GOOGLE ---
+
